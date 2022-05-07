@@ -55,7 +55,7 @@
         deleteButton.classList.add('btn', 'btn-danger');
         buttonGroup.classList.add('btn-group', 'btn-group-sm');
 
-        if (done == true) {
+        if (done) {
             item.classList.add('list-group-item-success');
         }
 
@@ -107,22 +107,24 @@
         container.append(todoList);
 
         //adding dids
-        for (i = 0; i < array.length; i++) {
-            let item = array[i];
-            let todoItem = createTodoItem(item.name, item.done);
-            todoItem.doneButton.addEventListener('click', function () {
-                todoItem.item.classList.toggle('list-group-item-success');
-                localStorage.setItem(key, JSON.stringify(getLocalArray()));
-            });
-
-            todoItem.deleteButton.addEventListener('click', function () {
-                if (confirm('Вы уверены?')) {
-                    todoItem.item.remove();
+        if (array && array.length > 0) {
+            for (i = 0; i < array.length; i++) {
+                let item = array[i];
+                let todoItem = createTodoItem(item.name, item.done);
+                todoItem.doneButton.addEventListener('click', function () {
+                    todoItem.item.classList.toggle('list-group-item-success');
                     localStorage.setItem(key, JSON.stringify(getLocalArray()));
-                }
-            });
+                });
 
-            todoList.append(todoItem.item);
+                todoItem.deleteButton.addEventListener('click', function () {
+                    if (confirm('Вы уверены?')) {
+                        todoItem.item.remove();
+                        localStorage.setItem(key, JSON.stringify(getLocalArray()));
+                    }
+                });
+
+                todoList.append(todoItem.item);
+            }
         }
         //empty-form check
         todoItemForm.button.disabled = true;
