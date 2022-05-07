@@ -109,7 +109,7 @@
         container.append(todoList);
 
         //adding dids
-
+        if (done) {
             for (i = 0; i < array.length; i++) {
                 let item = array[i];
                 let todoItem = createTodoItem(item.name, item.done);
@@ -128,7 +128,7 @@
                 todoList.append(todoItem.item)
 
             };
-        
+        }
 
         //empty-form check
         todoItemForm.button.disabled = true;
