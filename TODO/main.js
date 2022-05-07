@@ -153,7 +153,7 @@
             todoItem.deleteButton.addEventListener('click', function () {
                 if (confirm('Вы уверены?')) {
                     todoItem.item.remove();
-                    glocalStorage.setItem(key, JSON.stringify(getLocalArray()));
+                    localStorage.setItem(key, JSON.stringify(getLocalArray()));
                 }
             });
 
