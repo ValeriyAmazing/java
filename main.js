@@ -32,9 +32,13 @@ btn.addEventListener('click', function (e) {
 activeFigure = {
     x: 0,
     y: 0,
-    shape: createNew(),
+    shape: [
+        [1, 1, 1,],
+        [0, 1, 0,],
+        [0, 0, 0,],
+    ]
 }
-
+console.log(activeFigure);
 
 
 //отрисовываем  поле
@@ -61,7 +65,16 @@ function draw() {
 }
 
 
-
+//отрисовка фигуры на поле
+function updateFigurePosition() {
+    for (let y = 0; y < activeFigure.shape.length; y++){
+        for (let x = 0; x < activeFigure.shape[y].length; x++){
+            if (activeFigure.shape[y][x] & canMove()) {
+                mainfield[activeFigure.y+y][activeFigure.x+x] = activeFigure.shape[y][x];
+            }
+        }
+    }
+}
 //реализация движения вниз
 //проверяем возможносьть перемещения вниз
 function canMove() {
@@ -85,6 +98,7 @@ function moveDown() {
         for (let y = mainfield.length - 1; y >= 0; y--) {
             for (let x = 0; x < mainfield[y].length; x++) {
                 if (mainfield[y][x] === 1) {
+                    
                     mainfield[y + 1][x] = 1;
                     mainfield[y][x] = 0;
 
@@ -92,8 +106,12 @@ function moveDown() {
                 }
             }
         }
+        activeFigure.y += 1;
+        updateFigurePosition()
     }
+
     else fix();
+
     draw()
 }
 
@@ -127,7 +145,11 @@ function moveLeft() {
                 }
             }
         }
+        activeFigure.x -= 1;
+        updateFigurePosition()
     }
+
+    
     draw()
 }
 
@@ -161,10 +183,20 @@ function moveRight() {
                 }
             }
         }
+        activeFigure.x += 1;
+        updateFigurePosition()
     }
+
     draw()
 }
-
+function rotate() {
+    for (let y = 0; y < activeFigure.shape.length; y--) {
+        for (let x = 0; x < activeFigure.shape[y].length; x++) {
+            activeFigure.shape[y][x] = activeFigure.shape[x][y];
+        }
+    } updateFigurePosition()
+    console.log(activeFigure.shape)
+}
 
 
 
@@ -193,10 +225,11 @@ function fix() {
         for (let x = 0; x < mainfield[y].length; x++) {
             if (mainfield[y][x] === 1) {
                 mainfield[y][x] = 2;
-
             }
         }
     }
+    activeFigure.x = 0;
+    activeFigure.y = 0
     removeLine();
     createNew();
 }
@@ -258,7 +291,7 @@ function createNew() {
     //         mainfield[y][x + 4] = figure[y][x];
 
     // }
-    return figure;
+    activeFigure.shape=figure
 }
 
 //элементы управления
@@ -267,6 +300,7 @@ document.onkeydown = function (e) {
 
     else if (e.key === 'ArrowLeft') { moveLeft() }
     else if (e.key === 'ArrowDown') { moveDown() }
+    else if (e.key === 'ArrowUp') { rotate() }
 }
 
 //старт игры
@@ -276,5 +310,5 @@ function start() {
     setTimeout(start, speed)
 }
 
-
+updateFigurePosition()
 draw()

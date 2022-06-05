@@ -1,0 +1,42 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+
+    background-color: #000;
+}
+
+.tetris {
+    width: 310px;
+    height: 610px;
+    font-size: 0;
+    margin: 100px auto 0;
+    border: solid 5px silver;
+}
+
+.cell {
+
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border: solid 1px white;
+}
+
+.cellmovable {
+    display: inline-block;
+
+    width: 30px;
+    height: 30px;
+    border: solid 1px white;
+    background: rgb(160, 13, 218);
+}
+
+.cellfixed {
+    display: inline-block;
+
+    width: 30px;
+    height: 30px;
+    border: solid 1px rgb(12, 253, 149);
+    background: green;
+}
