@@ -2,7 +2,7 @@ let main = document.querySelector('.tetris');
 let btn = document.querySelector('button');
 
 let speed = 1000;
-let mainfield = [
+let mainfieldE = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -24,42 +24,64 @@ let mainfield = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 ];
-// btn.addEventListener('click', function (e) {
-//     createNew();
-//     start();
-// })
+let mainfield = [
+
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+];
+btn.addEventListener('click', function (e) {
+
+
+    start();
+
+})
 
 activeFigure = {
     x: 0,
     y: 0,
     shape: [
-        [1, 2, 3,],
-        [4, 5, 6,], 
-        [7, 8, 9,], 
+        [0, 1, 1,],
+        [1, 1, 0,],
+        [0, 0, 0,],
     ]
 }
 console.log(activeFigure);
 
 function rotate() {
     let r = activeFigure.shape.map(
-        (val1, index1) => activeFigure.shape.map(((val2, index2) => val2[index1]))
+        (val1, index1) => activeFigure.shape.map(((val2, index2) => val2[index1])).reverse()
 
     );
-    console.log(r);
+
     activeFigure.shape = r;
 }
 
 //отрисовываем  поле
 function draw() {
     let innerHTML = "";
-    for (let y = 0; y < mainfield.length; y++) {
+    for (let y = 3; y < mainfield.length; y++) {
         for (let x = 0; x < mainfield[y].length; x++) {
-
-            // if (mainfield[y][x] === 0) { innerHTML += '<div class="cell"></div>'; }
-            // else if (mainfield[y][x] === 1) { innerHTML += '<div class="cellmovable"></div>'; }
-            // else if (mainfield[y][x] === 2) { innerHTML += '<div class="cellfixed"></div>'; };
-
-            // innerHTML += '<div class="cell"></div>';
             switch (mainfield[y][x]) {
                 case 0: innerHTML += '<div class="cell"></div>'; break;
                 case 1: innerHTML += '<div class="cellmovable"></div>'; break;
@@ -68,7 +90,6 @@ function draw() {
             }
         }
     }
-    // console.log(innerHTML)
     main.innerHTML = innerHTML;
 }
 
@@ -84,6 +105,7 @@ function updateFigurePosition() {
         }
     }
 }
+//Удаление предыдущего положения фигуры
 function removePrevPos() {
     for (let y = 0; y < mainfield.length; y++) {
         for (let x = 0; x < mainfield[y].length; x++) {
@@ -93,6 +115,7 @@ function removePrevPos() {
         }
     }
 }
+//определение касания
 function detectColision() {
     for (let y = 0; y < activeFigure.shape.length; y++) {
         for (let x = 0; x < activeFigure.shape[y].length; x++) {
@@ -106,23 +129,23 @@ function detectColision() {
 }
 
 
-// //убираем заполненые линии
-// function removeLine() {
-//     for (let y = 0; y < mainfield.length; y++) {
-//         let canRemove = true;
-//         for (let x = 0; x < mainfield[y].length; x++) {
-//             if (mainfield[y][x] !== 2) {
-//                 canRemove = false;
-//                 break;
-//             }
-//         }
-//         if (canRemove) {
-//             mainfield.splice(y, 1,);
-//             mainfield.splice(0, 0, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
-//         }
-//     }
+//убираем заполненые линии
+function removeLine() {
+    for (let y = 0; y < mainfield.length; y++) {
+        let canRemove = true;
+        for (let x = 0; x < mainfield[y].length; x++) {
+            if (mainfield[y][x] !== 2) {
+                canRemove = false;
+                break;
+            }
+        }
+        if (canRemove) {
+            mainfield.splice(y, 1,);
+            mainfield.splice(0, 0, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+        }
+    }
 
-// }
+}
 
 
 //фиксируем позицию фигуры
@@ -135,29 +158,43 @@ function fix() {
             }
         }
     }
+    gameOver()
+    removeLine();
+    createNew();
     activeFigure.y = 0;
-    activeFigure.x = 0;
-    // removeLine();
-    // createNew();
+    activeFigure.x = 4;
+
+
+}
+//конец игры(тестовый)
+function gameOver() {
+    for (let x = 0; x < mainfield[0].length; x++) {
+        if (mainfield[2][x] === 2) {
+
+
+            return true;
+
+        }
+
+    }
+    return false;
+}
+
+//слуайное число (не включительно)
+function random(max) {
+    return Math.floor(Math.random() * max);
 }
 
 
-
-//слуайное число (не включительно)
-// function random(max) {
-//     return Math.floor(Math.random() * max);
-// }
-
-
-// //генерация случайной фигуры
+//генерация случайной фигуры
 function createNew() {
     let num;
     num = random(5);
 
-    let figure = [];
     let square = [
-        [1, 1,],
-        [1, 1,],
+        [0, 0, 0,],
+        [1, 1, 0,],
+        [1, 1, 0,],
     ];
 
     let squareBig = [
@@ -180,28 +217,22 @@ function createNew() {
     ];
 
     let figureZ = [
-        [1, 1, 0,],
-        [0, 1, 1,],
-        [0, 0, 0,]
+        [0, 0, 0,],
+        [1, 1, 1,],
+        [0, 0, 1,]
     ];
 
     switch (num) {
-        case 0: figure = square; break;
-        case 1: figure = squareBig; break;
-        case 2: figure = figureL; break;
-        case 3: figure = figureT; break;
-        case 4: figure = figureZ; break;
+        case 0: activeFigure.shape = square; break;
+        case 1: activeFigure.shape = squareBig; break;
+        case 2: activeFigure.shape = figureL; break;
+        case 3: activeFigure.shape = figureT; break;
+        case 4: activeFigure.shape = figureZ; break;
 
 
     }
-
-    // for (let y = 0; y < figure.length; y++) {
-    //     for (let x = 0; x < figure[y].length; x++)
-    //         mainfield[y][x + 4] = figure[y][x];
-
-    // }
-    return activeFigure.shape;
 }
+
 
 //элементы управления
 document.onkeydown = function (e) {
@@ -230,13 +261,31 @@ document.onkeydown = function (e) {
     updateFigurePosition()
     draw()
 }
+function clearField() {
+    let arr = mainfield.map(() => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,])
+    mainfield = arr;
+    console.log(mainfield)
+}
+//старт игры
+function start() {
+    if (!gameOver()) {
+        activeFigure.y += 1;
+        if (detectColision()) {
+            activeFigure.y -= 1;
+            fix()
+        }
+        updateFigurePosition()
+        draw()
+        setTimeout(start, speed)
+    }
+    else {
+        clearField()
+        draw()
+        alert('Game Over!');
 
-// //старт игры
-// function start() {
-//     moveDown();
-//     draw();
-//     setTimeout(start, speed)
-// }
+    }
 
-updateFigurePosition()
-draw()
+
+
+}
+
